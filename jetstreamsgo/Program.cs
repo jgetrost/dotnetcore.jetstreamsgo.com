@@ -18,7 +18,7 @@ namespace jetstreamsgo
     {
         public static void Main(string[] args)
         {
-            InsertData();
+            //InsertData();
             PrintData();
             BuildWebHost(args).Run();
         }
@@ -80,7 +80,7 @@ namespace jetstreamsgo
                     data.AppendLine($"ISBN: {book.ISBN}");
                     data.AppendLine($"Title: {book.Title}");
                     data.AppendLine($"Publisher: {book.Publisher.Name}");
-                    Console.WriteLine(data.ToString());
+                    System.Diagnostics.Debug.Write(data.ToString());
                 }
             }
         }

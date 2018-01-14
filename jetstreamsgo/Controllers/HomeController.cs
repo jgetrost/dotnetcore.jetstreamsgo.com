@@ -5,14 +5,21 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using jetstreamsgo.Models;
+using static jetstreamsgo.Models.LibraryModel;
+using jetstreamsgo.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace jetstreamsgo.Controllers
 {
     public class HomeController : Controller
     {
+        private LibraryContext dbc = new LibraryContext();
+
         public IActionResult Index()
         {
-            return View();
+            IEnumerable<Book> _viewModel;
+            _viewModel = dbc.Book.Include(b => b.Publisher).AsEnumerable();
+            return View(_viewModel);
         }
 
         public IActionResult About()
@@ -22,11 +29,11 @@ namespace jetstreamsgo.Controllers
             return View();
         }
 
-        public IActionResult Contact()
+        public IActionResult Publishers()
         {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
+            IEnumerable<Publisher> _viewModel;
+            _viewModel = dbc.Publisher.Include(p => p.Books).AsEnumerable();
+            return View(_viewModel);
         }
 
         public IActionResult Error()

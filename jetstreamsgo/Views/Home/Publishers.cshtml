@@ -1,0 +1,28 @@
+﻿@model IEnumerable<jetstreamsgo.Models.LibraryModel.Publisher>
+@{
+    ViewData["Title"] = "Publishers";
+}
+<div class="table-intro">
+    <h2>Publishers</h2>
+    <p>These are the publishers of the books in the library.</p>
+</div>
+<button type="button" class="btn btn-primary" id="btnAdd"><span class="glyphicon glyphicon-plus-sign"></span> Add Publisher</button>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Books in Library</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (jetstreamsgo.Models.LibraryModel.Publisher pub in Model)
+        {
+            <tr>
+                <td>@pub.ID</td>
+                <td>@pub.Name</td>
+                <td>@pub.Books.Count</td>
+            </tr>
+        }
+    </tbody>
+</table>
