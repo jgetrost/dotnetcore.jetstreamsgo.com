@@ -1,0 +1,93 @@
+﻿@model IEnumerable<jetstreamsgo.Models.LibraryModel.Publisher>
+@{
+    ViewData["Title"] = "Add";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Add</h2>
+
+<form id="bookAddForm" class="form-horizontal" action="/Book/Add" method="post">
+    <div class="form-group">
+        <label for="inputISBN" class="col-sm-2 control-label">ISBN</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" name="isbn" id="inputISBN" placeholder="ISBN" data-rule-validisbn="true">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputTitle" class="col-sm-2 control-label">Title</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" name="title" id="inputTitle" placeholder="Title">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputAuthor" class="col-sm-2 control-label">Author</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" name="author" id="inputAuthor" placeholder="Author">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputPages" class="col-sm-2 control-label">Pages</label>
+        <div class="col-sm-10">
+            <input type="number" class="form-control" name="pages" id="inputPages" placeholder="Pages" min="0">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputPublisher" class="col-sm-2 control-label">Publisher</label>
+        <div class="col-sm-10">
+            <select name="publisher" class="form-control">
+                @foreach (jetstreamsgo.Models.LibraryModel.Publisher pub in Model)
+                {
+                    <option value="@pub.ID">@pub.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </div>
+</form>
+@section Scripts{
+    <script>
+        $.validator.addMethod("validISBN", function (value, element) {
+            // Remove non ISBN digits, then split into an array
+            var chars = value.replace(/[- ]|^ISBN(?:-1[03])?:?/g, "").split("");
+            // Remove the final ISBN digit from `chars`, and assign it to `last`
+            var last = chars.pop();
+            var sum = 0;
+            var check, i;
+
+            if (chars.length == 9) {
+                // Compute the ISBN-10 check digit
+                chars.reverse();
+                for (i = 0; i < chars.length; i++) {
+                    sum += (i + 2) * parseInt(chars[i], 10);
+                }
+                check = 11 - (sum % 11);
+                if (check == 10) {
+                    check = "X";
+                } else if (check == 11) {
+                    check = "0";
+                }
+            } else {
+                // Compute the ISBN-13 check digit
+                for (i = 0; i < chars.length; i++) {
+                    sum += (i % 2 * 2 + 1) * parseInt(chars[i], 10);
+                }
+                check = 10 - (sum % 10);
+                if (check == 10) {
+                    check = "0";
+                }
+            }
+
+            if (check == last) {
+                return true;
+            } else {
+                return this.optional(element);
+            }
+        }, 'Invalid ISBN.');
+
+        $("#bookAddForm").validate();
+    </script>
+}

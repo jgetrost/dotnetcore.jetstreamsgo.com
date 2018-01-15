@@ -15,7 +15,7 @@ namespace jetstreamsgo.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseMySQL("server=localhost;database=library;user=library;password=books");
+            optionsBuilder.UseMySQL("server=dotnetcore.jetstreamsgo.com;database=library;user=library;password=A%b42aWD#A@!");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

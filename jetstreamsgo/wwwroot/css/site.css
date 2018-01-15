@@ -9,9 +9,13 @@
     float: right;
 }
 
-.table-intro{
+.table-intro {
     display: inline-block;
     float: left;
+}
+
+.error {
+    color: red;
 }
 
 /* Wrapping element */
